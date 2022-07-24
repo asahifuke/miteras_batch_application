@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+require 'miteras_batch_application'
+require 'optparse'
+
+opt = OptionParser.new
+params = {}
+opt.on('-c') {|v| params[:c] = v }
+opt.on('-e') {|v| params[:e] = v }
+opt.parse!(ARGV)
+attendance = Attendance.new(ARGV, params)
+attendance.input
