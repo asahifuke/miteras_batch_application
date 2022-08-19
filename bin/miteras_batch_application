@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'miteras_batch_application'
+require 'attendance'
 require 'optparse'
 
 opt = OptionParser.new

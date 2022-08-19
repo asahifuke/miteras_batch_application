@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.description = "miteras batch application"
   s.authors     = ["pontan"]
   s.email       = "xuyangfujia@gmail.com"
-  s.files       = ["lib/miteras_batch_application.rb", "lib/user.rb"]
+  s.files       = ["lib/attendance.rb", "lib/user.rb", "lib/user.rb", "acknowledgement_of_application.rb"]
   s.homepage    = "https://rubygems.org/gems/miteras_batch_application"
-  s.license     = "asahi"
+  s.license     = "MIT"
 end
