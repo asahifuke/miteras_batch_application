@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'selenium-webdriver'
 require_relative './user'
 require_relative './acknowledgement_of_application'
@@ -26,23 +28,23 @@ class Attendance
     sleep(1)
   end
 
-  def enter_discrepancy_reasons 
+  def enter_discrepancy_reasons
     find_table_row.length.times { |index| enter_discrepancy_reason(index) }
   end
 
   def find_table_row
-    @session.find_elements(:class, "table01__row")
+    @session.find_elements(:class, 'table01__row')
   end
 
   def enter_discrepancy_reason(index)
-    if find_alert_tooltip(index)
-      find_table_row[index].find_element(:class, 'divergence').click
-      sleep(1)
-      @session.find_element(:id, 'reason').send_keys(@reason)
-      @session.find_element(:id, 'regist').click
-      @session.find_element(:class, 'modalConfirm__btnBox').find_element(:class, 'divergence-close').click
-      sleep(1)
-    end
+    return unless find_alert_tooltip(index)
+
+    find_table_row[index].find_element(:class, 'divergence').click
+    sleep(1)
+    @session.find_element(:id, 'reason').send_keys(@reason)
+    @session.find_element(:id, 'regist').click
+    @session.find_element(:class, 'modalConfirm__btnBox').find_element(:class, 'divergence-close').click
+    sleep(1)
   end
 
   def find_alert_tooltip(index)
@@ -50,27 +52,19 @@ class Attendance
   end
 
   def check_on_holidays
-    find_table_row.map do |table_row|
-      AcknowledgementOfApplication.new(table_row).check_on_holidays
-    end
-    @session.find_element(:id, 'batch-request').click
-    @session.find_element(:id, 'save-batch-request').click
+    check_table_row_holiday
+    click_batch_approval_application_button
     sleep(4)
   end
+
+  def check_table_row_holiday
+    find_table_row.map { |table_row| AcknowledgementOfApplication.new(table_row).check_on_holidays }
+  end
+
+  def click_batch_approval_application_button
+    return if @session.find_element(:class, 'u_relative')
+
+    @session.find_element(:id, 'batch-request').click
+    @session.find_element(:id, 'save-batch-request').click
+  end
 end
-
-
-
-
-
-
-# require 'miteras_batch_application'
-require 'optparse'
-
-opt = OptionParser.new
-params = {}
-opt.on('-c') {|v| params[:c] = v }
-opt.on('-e') {|v| params[:e] = v }
-opt.parse!(ARGV)
-attendance = Attendance.new(ARGV, params)
-attendance.input

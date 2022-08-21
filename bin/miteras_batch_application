@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 #!/usr/bin/env ruby
 
 require 'attendance'
@@ -5,8 +6,8 @@ require 'optparse'
 
 opt = OptionParser.new
 params = {}
-opt.on('-c') {|v| params[:c] = v }
-opt.on('-e') {|v| params[:e] = v }
+opt.on('-c') { |v| params[:c] = v }
+opt.on('-e') { |v| params[:e] = v }
 opt.parse!(ARGV)
 attendance = Attendance.new(ARGV, params)
 attendance.input
